@@ -19,12 +19,21 @@
                  :align-items :center
                  :flex-direction :row
                  :justify-content :center}}
-   [:div {:style {:margin-right 15}} (count @(re-frame/subscribe [::subs/phones]))]
+   [:div {:style {:margin-right 15
+                  :color :white}}
+    (count @(re-frame/subscribe [::subs/phones]))]
    [mui/circular-progress {:color :white}]])
+
+(defn title
+  []
+  [:div "Choose you next LineageOS phone (" [:a {:href "https://github.com/piotr-yuxuan/choose-a-new-phone"
+                                                 :style {:text-decoration :none
+                                                         :color :white
+                                                         :font-style :oblique}} "source"] ")"])
 
 (defn app-bar
   []
-  [mui/app-bar {:title "Choose you next LineageOS phone"
+  [mui/app-bar {:title (reagent.core/as-component [title])
                 :iconElementLeft (reagent.core/as-component [lineage-os-logo])
                 :iconElementRight (reagent.core/as-component
                                     (when-not @(re-frame/subscribe [::subs/cat-files-finished?])
