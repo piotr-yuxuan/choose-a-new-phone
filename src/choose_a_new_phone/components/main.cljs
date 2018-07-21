@@ -3,7 +3,6 @@
             [choose-a-new-phone.subs :as subs]
             [choose-a-new-phone.events :as events]
             [cljs-react-material-ui.reagent :as mui]
-            [cljs-react-material-ui.icons :as ic]
             [choose-a-new-phone.components.app-bar :refer [app-bar]]
             [choose-a-new-phone.components.phone-card :refer [phone-card]]))
 

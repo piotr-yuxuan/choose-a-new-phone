@@ -73,9 +73,21 @@
 (re-frame/reg-event-fx
   ::ls-dir-http-result
   (fn [_ [_ result]]
-    {:throttle-dispatch-n [0 (->> result
-                                  shuffle ;; break lexicographic order
-                                  (map #(do [::cat-file %])))]}))
+    {:throttle-dispatch-n [10 (cons [::cat-files-started]
+                                     (conj (->> result
+                                                shuffle ;; break lexicographic order
+                                                (map #(do [::cat-file %])))
+                                           [::cat-files-finished]))]}))
+
+(re-frame/reg-event-db
+  ::cat-files-started
+  (fn [db _]
+    (assoc db :cat-files-finished? false)))
+
+(re-frame/reg-event-db
+  ::cat-files-finished
+  (fn [db _]
+    (assoc db :cat-files-finished? true)))
 
 (re-frame/reg-event-fx
   ::cat-file
@@ -91,3 +103,13 @@
   ::only-expanded?
   (fn [db [_ value]]
     (assoc db :only-expanded? value)))
+
+(re-frame/reg-event-fx
+  ::get-image
+  (fn [_ [_ file]]
+    {:http-xhrio {:method :get
+                  :uri (domain/phone-spec-file-url file)
+                  :timeout 8000 ;; optional see API docs
+                  :response-format (ajax/raw-response-format)
+                  :on-success [::try-raw-good-http-result file]
+                  :on-failure [::try-raw-bad-http-result]}}))

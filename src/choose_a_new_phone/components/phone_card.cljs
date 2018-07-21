@@ -30,11 +30,18 @@
                             :justify-content :space-around
                             :flex-flow "row wrap"}}
      [mui/card-media {:style {:padding 30}}
-      [:img {:src (domain/phone-image-url phone)
-             :alt (:image phone)
-             :style {:height 300
-                     :width 300
-                     :object-fit :contain}}]]
+      (if-let [available-image @(re-frame/subscribe [::subs/available-resource? (domain/phone-image-url phone)])]
+        [:img {:src available-image
+               :alt (:image phone)
+               :style {:height 300
+                       :width 300
+                       :object-fit :contain}}]
+        [:div {:style {:height 300
+                       :width 300
+                       :display :flex
+                       :justify-content :center
+                       :align-items :center}}
+         [mui/circular-progress]])]
 
      (when (= :expanded @(re-frame/subscribe [::subs/phone-card-loaded? phone]))
        [mui/card-text {:style {:flex 1

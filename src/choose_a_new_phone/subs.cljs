@@ -1,5 +1,6 @@
 (ns choose-a-new-phone.subs
   (:require [re-frame.core :as re-frame]
+            [goog.object :as object]
             [choose-a-new-phone.events :as events]
             [choose-a-new-phone.domain :as domain]))
 
@@ -44,3 +45,22 @@
                 :display-card-status
                 (= :expanded))
           phones)))
+
+(re-frame/reg-sub-raw
+  ;; Take care of CORS
+  ::available-resource?
+  (fn [app-db [_ src]]
+    (assoc-in @app-db [:available-resource? src] false)
+    (doto (.createElement js/document "img") ;; TODO hackish?
+      ;; actually triggers a GET, but we can't it use right here
+      (object/set "src" src)
+      (.addEventListener "load" #(swap! app-db assoc-in [:available-resource? src] true)))
+    (reagent.ratom/make-reaction
+      #(when (get-in @app-db [:available-resource? src])
+         src)
+      :on-dispose #(swap! app-db update :available-resource? dissoc src))))
+
+(re-frame/reg-sub
+  ::cat-files-finished?
+  (fn [db _]
+    (:cat-files-finished? db)))
