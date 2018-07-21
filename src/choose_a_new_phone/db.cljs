@@ -1,4 +1,5 @@
 (ns choose-a-new-phone.db)
 
 (def default-db
-  {:phone #{}})
+  {:phone #{}
+   :only-expanded? false})

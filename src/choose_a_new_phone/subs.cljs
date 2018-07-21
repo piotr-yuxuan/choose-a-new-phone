@@ -8,15 +8,6 @@
   (fn [db [_ phone]]
     (:display-card-status (some #{phone} (:phone db)))))
 
-(re-frame/reg-sub
-  ::display-phones?
-  (fn [db _]
-    (boolean (->> db
-                  :phone
-                  (map :display-card-status)
-                  seq
-                  (some some?)))))
-
 (re-frame/reg-sub-raw
   ::phones
   (fn [app-db _]
@@ -29,7 +20,27 @@
         :on-dispose (fn [])))))
 
 (re-frame/reg-sub
+  ::only-expanded?
+  (fn [db _]
+    (:only-expanded? db)))
+
+(re-frame/reg-sub
   ::sorted-phones
   :<- [::phones]
+  :<- [::only-expanded?]
+  (fn [[phones only-expanded?] _]
+    (let [filter-phone (if only-expanded?
+                         (comp #(= % :expanded) :display-card-status)
+                         #(do true))]
+      (->> phones
+           domain/sort-latest-device
+           (filter filter-phone)))))
+
+(re-frame/reg-sub
+  ::some-expanded-phones?
+  :<- [::phones]
   (fn [phones _]
-    (domain/sort-latest-device phones)))
+    (some #(->> %
+                :display-card-status
+                (= :expanded))
+          phones)))

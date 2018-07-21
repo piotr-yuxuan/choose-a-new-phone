@@ -10,16 +10,15 @@
   (fn [db _]
     db/default-db))
 
-(re-frame/reg-event-db
+(re-frame/reg-event-fx
   ::phone-card-status
-  (fn [db [_ phone status]]
-    (if (some #{phone} (:phone db))
-      (update db
-              :phone
-              (comp #(conj % (assoc phone
-                               :display-card-status status))
-                    #(disj % phone)))
-      db)))
+  (fn [{:keys [db]} [_ phone status]]
+    {:db (-> db
+             (assoc :only-expanded? false) ;; avoid collapse the last expanded
+             (update :phone
+                     (comp #(conj % (assoc phone
+                                      :display-card-status status))
+                           #(disj % phone))))}))
 
 (re-frame/reg-event-fx
   ::try-raw-good-http-result
@@ -74,8 +73,9 @@
 (re-frame/reg-event-fx
   ::ls-dir-http-result
   (fn [_ [_ result]]
-    {:throttle-dispatch-n [0 (map #(do [::cat-file %])
-                                  result)]}))
+    {:throttle-dispatch-n [0 (->> result
+                                  shuffle ;; break lexicographic order
+                                  (map #(do [::cat-file %])))]}))
 
 (re-frame/reg-event-fx
   ::cat-file
@@ -86,3 +86,8 @@
                   :response-format (ajax/raw-response-format)
                   :on-success [::try-raw-good-http-result file]
                   :on-failure [::try-raw-bad-http-result]}}))
+
+(re-frame/reg-event-db
+  ::only-expanded?
+  (fn [db [_ value]]
+    (assoc db :only-expanded? value)))
