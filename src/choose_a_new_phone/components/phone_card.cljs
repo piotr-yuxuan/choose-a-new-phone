@@ -13,7 +13,7 @@
                  :min-width 380}
          :key (hash phone)}
    [mui/card {:container-style {:width "100%"}
-              :style {:margin 15 ;; TODO better use CSS grid
+              :style {:margin 15
                       :display (if @(re-frame/subscribe [::subs/phone-card-loaded? phone])
                                  :flex
                                  :none)}

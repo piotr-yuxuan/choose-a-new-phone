@@ -2,4 +2,5 @@
 
 (def default-db
   {:phone #{}
-   :only-expanded? false})
+   :only-expanded? false
+   :cat-files-finished? nil})

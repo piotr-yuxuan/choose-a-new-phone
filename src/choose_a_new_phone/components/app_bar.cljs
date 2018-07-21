@@ -24,12 +24,16 @@
     (count @(re-frame/subscribe [::subs/phones]))]
    [mui/circular-progress {:color :white}]])
 
+(defn repo-link
+  []
+  [:a {:href "https://github.com/piotr-yuxuan/choose-a-new-phone"
+       :style {:text-decoration :none
+               :color :white
+               :font-style :oblique}} "source"])
+
 (defn title
   []
-  [:div "Choose you next LineageOS phone (" [:a {:href "https://github.com/piotr-yuxuan/choose-a-new-phone"
-                                                 :style {:text-decoration :none
-                                                         :color :white
-                                                         :font-style :oblique}} "source"] ")"])
+  [:div "Choose you next LineageOS phone (" [repo-link] ")"])
 
 (defn app-bar
   []

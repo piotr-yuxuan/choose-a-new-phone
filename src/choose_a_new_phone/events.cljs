@@ -24,22 +24,21 @@
   ::try-raw-good-http-result
   (fn [{:keys [db]} [_ file result]]
     (let [phone (utils/yaml->map result)
+          _ (when-not phone (println "failing yaml parsing" (:path file)))
           latest-release (domain/release-to-latest (:release phone))]
-      (if latest-release
-        {:db (update db
-                     :phone
-                     (fn [phones]
-                       (set (conj phones
-                                  (assoc phone
-                                    :file file
-                                    :display-card-status :collapsed
-                                    :highest-version (->> (:versions phone)
-                                                          (remove nil?)
-                                                          (apply max))
-                                    :latest-release latest-release)))))}
-        (do
-          (println "failing release" (:path file))
-          {})))))
+      (cond (nil? phone) (do (println "failing yaml parsing" (:path file)) {})
+            (nil? latest-release) (do (println "failing release" (:path file)) {})
+            :default {:db (update db
+                                  :phone
+                                  (fn [phones]
+                                    (conj phones
+                                          (assoc phone
+                                            :file file
+                                            :display-card-status :collapsed
+                                            :highest-version (->> (:versions phone)
+                                                                  (remove nil?)
+                                                                  (apply max))
+                                            :latest-release latest-release))))}))))
 
 (re-frame/reg-event-fx
   ::try-raw-bad-http-result

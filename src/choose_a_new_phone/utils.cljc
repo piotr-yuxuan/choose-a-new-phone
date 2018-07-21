@@ -10,5 +10,5 @@
                      js->clj
                      clojure.walk/keywordize-keys)
                 (catch :default _
-                  ;; too fragile, some devices aren't properly formatted
-                  {}))))
+                  ;; too fragile, some device descriptions aren't properly formatted
+                  ))))
