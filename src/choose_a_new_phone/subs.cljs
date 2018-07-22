@@ -14,21 +14,6 @@
         (fn [] (:phone @app-db))
         :on-dispose (fn [])))))
 
-(defn- maybe-get!
-  [app-db img-src]
-  (doto (.createElement js/document "img")
-    (object/set "src" img-src) ;; maybe trigger a GET
-    (.addEventListener "load" #(swap! app-db update :available-resource? conj img-src))))
-
-(re-frame/reg-sub-raw
-  ::available-resource?
-  (fn [app-db [_ src]]
-    (maybe-get! app-db src)
-    (reagent.ratom/make-reaction
-      #(some (:available-resource? @app-db) src)
-      :on-dispose (fn []
-                    #(swap! app-db update :available-resource? disj src)))))
-
 (re-frame/reg-sub
   ::phone-card-loaded?
   (fn [db [_ phone]]
@@ -38,32 +23,17 @@
          :display-card-status)))
 
 (re-frame/reg-sub
-  ::only-expanded?
-  (fn [db _]
-    (:only-expanded? db)))
-
-(re-frame/reg-sub
   ::sorted-phones
   :<- [::phones]
-  :<- [::only-expanded?]
-  (fn [[phones only-expanded?] _]
-    (let [filter-phone (if only-expanded?
-                         (comp #(= % :expanded) :display-card-status)
-                         #(do true))]
-      (->> phones
-           domain/sort-latest-device
-           (filter filter-phone)))))
-
-(re-frame/reg-sub
-  ::some-expanded-phones?
-  :<- [::phones]
   (fn [phones _]
-    (some #(->> %
-                :display-card-status
-                (= :expanded))
-          phones)))
+    (domain/sort-latest-device phones)))
 
 (re-frame/reg-sub
   ::cat-files-finished?
   (fn [db _]
     (:cat-files-finished? db)))
+
+(re-frame/reg-sub
+  ::phone-dialog
+  (fn [db _]
+    (:phone-dialog db)))

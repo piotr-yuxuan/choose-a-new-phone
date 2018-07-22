@@ -4,6 +4,7 @@
             [choose-a-new-phone.events :as events]
             [cljs-react-material-ui.reagent :as mui]
             [choose-a-new-phone.components.app-bar :refer [app-bar]]
+            [choose-a-new-phone.components.phone-dialog :refer [phone-dialog]]
             [choose-a-new-phone.components.phone-card :refer [phone-card]]))
 
 (defn panel
@@ -14,13 +15,8 @@
                      :height "100%"
                      :flex-direction :column}})
      [app-bar]
-     [:div {:style {:margin 20
-                    :width "50%"}}
-      [mui/toggle {:label "Only expanded devices"
-                   :label-position :right
-                   :on-toggle #(re-frame/dispatch [::events/only-expanded? %2])
-                   :toggled @(re-frame/subscribe [::subs/only-expanded?])
-                   :disabled (not @(re-frame/subscribe [::subs/some-expanded-phones?]))}]]
+     (when-let [dialog-state @(re-frame/subscribe [::subs/phone-dialog])]
+       [phone-dialog dialog-state])
      (if sorted-phones
        [:div {:style {:display :flex
                       :flex-direction :row

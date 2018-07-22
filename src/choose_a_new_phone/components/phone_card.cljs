@@ -14,41 +14,23 @@
                  :min-width 380}
          :key (hash phone)}
    [mui/card {:container-style {:width "100%"}
+              :className "hover-zoom-5"
               :style {:margin 15
+                      :transition "all .2s ease-in-out"
                       :display (if @(re-frame/subscribe [::subs/phone-card-loaded? phone])
                                  :flex
                                  :none)}
-              :expanded (= :expanded @(re-frame/subscribe [::subs/phone-card-loaded? phone]))}
+              :on-click #(re-frame/dispatch [::events/phone-dialog {:phone phone
+                                                                    :open? true}])
+              :expanded (= phone (:phone @(re-frame/subscribe [::subs/phone-dialog])))}
     [mui/card-header {:title (str/join " " [(:vendor phone) (:name phone)])
-                      :subtitle (str (.format (:latest-release phone) "MMMM YYYY"))
+                      :subtitle (str (.fromNow (:latest-release phone)))
                       :avatar (domain/version-logo (:highest-version phone))
-                      :showExpandableButton true
-                      :on-click #(let [new-state (if (= :expanded @(re-frame/subscribe [::subs/phone-card-loaded? phone]))
-                                                   :collapsed
-                                                   :expanded)]
-                                   (re-frame/dispatch [::events/phone-card-status phone new-state]))}]
+                      :showExpandableButton true}]
     [mui/card-text {:style {:display :flex
                             :justify-content :space-around
                             :flex-flow "row wrap"}}
      [progressive-img {:style {:height 300
                                :width 300
                                :object-fit :contain}
-                       :src (domain/phone-image-url phone)}]
-
-     (when (= :expanded @(re-frame/subscribe [::subs/phone-card-loaded? phone]))
-       [mui/card-text {:style {:flex 1
-                               :display :flex
-                               :flex-flow "column wrap"
-                               :justify-content :space-around}
-                       :expandable true}
-        [mui/list
-         [mui/list-item {:primary-text (str (:cpu_freq phone) ", " (:cpu_cores phone) " cores")
-                         :left-icon (ic/hardware-memory)}]
-         [mui/list-item {:primary-text (str (:screen phone) ", " (:screen_res phone))
-                         :left-icon (ic/hardware-phone-android)}]
-         [mui/list-item {:primary-text (str (:storage phone) ", RAM " (:ram phone))
-                         :left-icon (ic/device-storage)}]
-         [mui/list-item {:primary-text (str (:capacity (:battery phone)) "mAh, " (:tech (:battery phone)))
-                         :left-icon (ic/device-battery-std)}]
-         [mui/list-item {:primary-text (:info (first (:cameras phone)))
-                         :left-icon (ic/image-photo-camera)}]]])]]])
+                       :src (domain/phone-image-url phone)}]]]])

@@ -13,6 +13,7 @@
       (let [last-layer? (= @layer-index 0)
             first-layer? (= @layer-index initial-layer-index)]
         [:div (update el-attrs :style merge {:display :inline-flex
+                                             :position :relative
                                              :vertical-align :bottom
                                              :align-items :center
                                              :justify-content :center})
