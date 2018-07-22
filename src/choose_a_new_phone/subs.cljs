@@ -11,24 +11,23 @@
       (when (need-refresh? (:phone @app-db))
         (re-frame/dispatch [::events/ls-dir]))
       (reagent.ratom/make-reaction
-        (fn [] (get-phones-data @app-db))
+        (fn [] (:phone @app-db))
         :on-dispose (fn [])))))
 
 (defn- maybe-get!
   [app-db img-src]
-  (assoc-in @app-db [:available-resource? img-src] false)
   (doto (.createElement js/document "img")
-    (object/set "src" img-src) ;; triggers a GET
-    (.addEventListener "load" #(swap! app-db assoc-in [:available-resource? img-src] true))))
+    (object/set "src" img-src) ;; maybe trigger a GET
+    (.addEventListener "load" #(swap! app-db update :available-resource? conj img-src))))
 
 (re-frame/reg-sub-raw
   ::available-resource?
   (fn [app-db [_ src]]
     (maybe-get! app-db src)
     (reagent.ratom/make-reaction
-      #(when (get-in @app-db [:available-resource? src])
-         src)
-      :on-dispose #(swap! app-db update :available-resource? dissoc src))))
+      #(some (:available-resource? @app-db) src)
+      :on-dispose (fn []
+                    #(swap! app-db update :available-resource? disj src)))))
 
 (re-frame/reg-sub
   ::phone-card-loaded?
