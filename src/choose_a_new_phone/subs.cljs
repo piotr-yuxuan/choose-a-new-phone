@@ -29,11 +29,11 @@
     (domain/sort-latest-device phones)))
 
 (re-frame/reg-sub
-  ::cat-files-finished?
-  (fn [db _]
-    (:cat-files-finished? db)))
-
-(re-frame/reg-sub
   ::phone-dialog
   (fn [db _]
     (:phone-dialog db)))
+
+(re-frame/reg-sub
+  ::pending-phone-request?
+  (fn [db _]
+    (not (zero? (:pending-phone-request db)))))

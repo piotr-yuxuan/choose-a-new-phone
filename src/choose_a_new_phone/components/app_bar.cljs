@@ -21,6 +21,7 @@
                   :height 50
                   :width 50}}]])
 
+;; TODO before disappear, show how many devices + fetching errors (allow retry), if any
 (defn phone-retrieval-progress
   []
   [:div {:style {:display :inline-flex
@@ -46,12 +47,12 @@
 
 (defn title
   []
-  [:div "Choose you next LineageOS phone (" [repo-link] ")"])
+  [:div "Choose your next LineageOS phone (" [repo-link] ")"])
 
 (defn app-bar
   []
   [mui/app-bar {:title (reagent.core/as-component [title])
                 :iconElementLeft (reagent.core/as-component [lineage-os-logo])
                 :iconElementRight (reagent.core/as-component
-                                    (when-not @(re-frame/subscribe [::subs/cat-files-finished?])
+                                    (when @(re-frame/subscribe [::subs/pending-phone-request?])
                                       [phone-retrieval-progress]))}])

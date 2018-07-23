@@ -4,4 +4,4 @@
   {:phone #{}
    :only-expanded? false
    :available-resource? #{}
-   :cat-files-finished? nil})
+   :pending-phone-request 0})

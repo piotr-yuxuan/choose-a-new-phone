@@ -10,30 +10,34 @@
   (fn [db _]
     db/default-db))
 
+(defn conj-non-nil-phone
+  [phones phone file latest-release]
+  (if (nil? phone)
+    phones
+    (conj phones
+          (assoc phone
+            :file file
+            :display-card-status :collapsed
+            :highest-version (->> (:versions phone)
+                                  (remove nil?)
+                                  (apply max))
+            :latest-release latest-release))))
+
 (re-frame/reg-event-fx
   ::try-raw-good-http-result
   (fn [{:keys [db]} [_ file result]]
     (let [phone (utils/yaml->map result)
-          _ (when-not phone (println "failing yaml parsing" (:path file)))
           latest-release (domain/release-to-latest (:release phone))]
-      (cond (nil? phone) (do (println "failing yaml parsing" (:path file)) {})
-            (nil? latest-release) (do (println "failing release" (:path file)) {})
-            :default {:db (update db
-                                  :phone
-                                  (fn [phones]
-                                    (conj phones
-                                          (assoc phone
-                                            :file file
-                                            :display-card-status :collapsed
-                                            :highest-version (->> (:versions phone)
-                                                                  (remove nil?)
-                                                                  (apply max))
-                                            :latest-release latest-release))))}))))
+      (when (nil? phone)
+        (println "failing yaml parsing" (:path file)))
+      {:db (-> db
+               (update :pending-phone-request dec)
+               (update :phone conj-non-nil-phone phone file latest-release))})))
 
-(re-frame/reg-event-fx
+(re-frame/reg-event-db
   ::try-raw-bad-http-result
-  (fn [_ _]
-    {}))
+  (fn [db _]
+    (update db :pending-phone-request dec)))
 
 (re-frame/reg-event-fx
   ::bad-http-result
@@ -61,22 +65,11 @@
 
 (re-frame/reg-event-fx
   ::ls-dir-http-result
-  (fn [_ [_ result]]
-    {:throttle-dispatch-n [10 (cons [::cat-files-started]
-                                    (conj (->> result
-                                               shuffle ;; break lexicographic order
-                                               (map #(do [::cat-file %])))
-                                          [::cat-files-finished]))]}))
-
-(re-frame/reg-event-db
-  ::cat-files-started
-  (fn [db _]
-    (assoc db :cat-files-finished? false)))
-
-(re-frame/reg-event-db
-  ::cat-files-finished
-  (fn [db _]
-    (assoc db :cat-files-finished? true)))
+  (fn [{:keys [db]} [_ result]]
+    {:db (assoc db :pending-phone-request (count result))
+     :throttle-dispatch-n [10 (->> result
+                                   shuffle ;; break lexicographic order
+                                   (map (fn [file-path] [::cat-file file-path])))]}))
 
 (re-frame/reg-event-fx
   ::cat-file
