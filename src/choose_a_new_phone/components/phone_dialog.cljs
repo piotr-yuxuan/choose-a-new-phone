@@ -12,7 +12,7 @@
   (fn [{:keys [phone open?]}]
     [mui/dialog {:modal false
                  :open open?
-                 :title (str/join " " [(:vendor phone) (:name phone)])
+                 :title (str/join " " [(:vendor phone) (:name phone) (domain/version->human (:highest-version phone))])
                  :autoScrollBodyContent true
                  :onRequestClose #(re-frame/dispatch [::events/phone-dialog {:phone nil :open? false}])}
      [:div {:style {:display :flex
