@@ -1,0 +1,22 @@
+#+TITLE:Roadmap
+
+* Localisation
+* Progressive image loading
+I already have the front-side tech, I just need to automate img
+download, autocrop, then generate different quality images. see this
+implementation of [[https://github.com/oliver-moran/jimp/blob/7f81512dd910a4c07a23ff959ca0fec1a86f357a/index.js#L1370-L1527][autocrop]] in JS.
+* Fix nougat icon (grey avatar background)
+* Hydratation
+Would be great to save some network calls and dramatically improve the
+UX.  The idea is to embed phone information in initial db and then you
+refresh it.
+* Price tags
+I feel it would be too demanding to get price for every phones at
+runtime. Dehydrate MSRP? Call best buy and some other when hovered /
+displayed?
+* Save the CPU and the battery
+Rendering 220 images in less than 30 seconds is quite demanding. Use a
+lazy list instead. At first it only contains the nine first items,
+then as you scroll down, it expand. You don't receive images in order,
+a lazy list of nine phones doesn't mean only 9 pictures will be
+fetched, but it will dramatically reduce the effort.
