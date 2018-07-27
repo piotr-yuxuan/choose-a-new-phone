@@ -1,11 +1,10 @@
 (ns choose-a-new-phone.components.progressive-img
-  (:require [re-frame.core :as re-frame]
-            [cljs-react-material-ui.icons :as ic]
+  (:require [cljs-react-material-ui.icons :as ic]
             [cljs-react-material-ui.reagent :as mui]))
 
 (defn progressive-img
   [el-attrs & progressive-img-attrs]
-  (let [;; max 1 so this works even when you only have on img and you put its src in el-attrs
+  (let [;; max 1 so this works even with one single image / el-attrs
         initial-layer-index (max 1 (count progressive-img-attrs))
         layer-index (reagent.core/atom initial-layer-index)
         error? (reagent.core/atom false)]

@@ -1,24 +1,24 @@
 (ns choose-a-new-phone.subs
   (:require [re-frame.core :as re-frame]
             [goog.object :as object]
-            [choose-a-new-phone.events :as events]
+            [choose-a-new-phone.events.lineage-wiki :as lineage-wiki]
             [choose-a-new-phone.domain :as domain]))
 
 (re-frame/reg-sub-raw
   ::phones
   (fn [app-db _]
     (let [need-refresh? empty?]
-      (when (need-refresh? (:phone @app-db))
-        (re-frame/dispatch [::events/ls-dir]))
+      (when (need-refresh? (:phones @app-db))
+        (re-frame/dispatch [::lineage-wiki/get-phone-list]))
       (reagent.ratom/make-reaction
-        (fn [] (:phone @app-db))
+        (fn [] (:phones @app-db))
         :on-dispose (fn [])))))
 
 (re-frame/reg-sub
   ::phone-card-loaded?
   (fn [db [_ phone]]
     (->> db
-         :phone
+         :phones
          (some #{phone})
          :display-card-status)))
 

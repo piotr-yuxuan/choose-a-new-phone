@@ -1,15 +1,14 @@
 (ns choose-a-new-phone.components.phone-card
   (:require [re-frame.core :as re-frame]
             [choose-a-new-phone.subs :as subs]
-            [choose-a-new-phone.events :as events]
+            [choose-a-new-phone.events.ui :as ui]
             [clojure.string :as str]
-            [cljs-react-material-ui.icons :as ic]
             [choose-a-new-phone.domain :as domain]
             [choose-a-new-phone.components.progressive-img :refer [progressive-img]]
             [cljs-react-material-ui.reagent :as mui]))
 
 (defn phone-card
-  [phone]
+  [phone] ;; will get rendered each time it's modified; suboptimal?
   [:div {:style {:width "33%"
                  :min-width 380}
          :key (hash phone)}
@@ -20,7 +19,7 @@
                       :display (if @(re-frame/subscribe [::subs/phone-card-loaded? phone])
                                  :flex
                                  :none)}
-              :on-click #(re-frame/dispatch [::events/phone-dialog {:phone phone
+              :on-click #(re-frame/dispatch [::ui/phone-dialog {:phone phone
                                                                     :open? true}])
               :expanded (= phone (:phone @(re-frame/subscribe [::subs/phone-dialog])))}
     [mui/card-header {:title (str/join " " [(:vendor phone) (:name phone)])

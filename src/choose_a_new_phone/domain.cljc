@@ -26,7 +26,7 @@
 
 (defn sort-latest-device
   [phones]
-  (reverse (sort-by (juxt (comp #(.valueOf %) release-to-latest :release)
+  (reverse (sort-by (juxt (comp #(.valueOf %) :latest-release)
                           (comp min :price-tags)
                           ;; also sort by name, so X Pro Plus 2 is after X Pro,
                           ;; even when release dates are the same.
