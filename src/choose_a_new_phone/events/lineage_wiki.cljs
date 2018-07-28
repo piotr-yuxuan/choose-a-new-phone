@@ -65,11 +65,17 @@
                               (:price-hint %))
                         temp-dehydrated))))
 
+(defn not-discontinued
+  [phone]
+  (when-not (some #{"discontinued"} (:channels phone))
+    phone))
+
 (re-frame/reg-event-fx
   ::fetch-phone-success
   (fn [{:keys [db]} [_ file result]]
     (if-let [phone (->> result
                         (lineage-wiki->phone file)
+                        not-discontinued
                         (temp-hydrate-phone (:temp-dehydrated db)))]
       {:db (-> db
                (update :pending-phone-request dec) ;; interceptor?
