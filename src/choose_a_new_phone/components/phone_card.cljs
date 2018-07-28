@@ -20,7 +20,7 @@
                                  :flex
                                  :none)}
               :on-click #(re-frame/dispatch [::ui/phone-dialog {:phone phone
-                                                                    :open? true}])
+                                                                :open? true}])
               :expanded (= phone (:phone @(re-frame/subscribe [::subs/phone-dialog])))}
     [mui/card-header {:title (str/join " " [(:vendor phone) (:name phone)])
                       :subtitle (str (.fromNow (:latest-release phone)))

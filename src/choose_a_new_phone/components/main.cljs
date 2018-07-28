@@ -9,16 +9,16 @@
 (defn panel
   []
   (let [sorted-phones (seq @(re-frame/subscribe [::subs/sorted-phones]))
-          pending-request? @(re-frame/subscribe [::subs/pending-phone-request?])
-          display-phones? (and (not pending-request?) sorted-phones)]
-      [:div (when-not display-phones?
+        pending-request? @(re-frame/subscribe [::subs/pending-phone-request?])
+        display-phones? (and (not pending-request?) sorted-phones)]
+    [:div (when-not display-phones?
             {:style {:display :flex
                      :height "100%"
                      :flex-direction :column}})
      [app-bar]
      (when-let [dialog-state @(re-frame/subscribe [::subs/phone-dialog])]
        [phone-dialog dialog-state])
-       (if display-phones?
+     (if display-phones?
        [:div {:style {:display :flex
                       :flex-direction :row
                       :flex-wrap :wrap
