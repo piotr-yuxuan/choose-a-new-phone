@@ -4,6 +4,7 @@
             [clojure.string :as str]
             [cljs-react-material-ui.icons :as ic]
             [choose-a-new-phone.domain :as domain]
+            [choose-a-new-phone.events.bestbuy :as bestbuy]
             [choose-a-new-phone.components.progressive-img :refer [progressive-img]]
             [cljs-react-material-ui.reagent :as mui]))
 
@@ -34,7 +35,10 @@
       [mui/list-item {:primary-text (str (:capacity (:battery phone)) "mAh, " (:tech (:battery phone)))
                       :left-icon (ic/device-battery-std)}]
       [mui/list-item {:primary-text (:info (first (:cameras phone)))
-                      :left-icon (ic/image-photo-camera)}]]]
+                      :left-icon (ic/image-photo-camera)}]
+      [mui/list-item {:primary-text (str (or (:price-hint phone)
+                                             "no price hint"))
+                      :left-icon (ic/editor-attach-money)}]]]
     [progressive-img {:style {:margin-top 15
                               :margin-bottom 15
                               :height 500

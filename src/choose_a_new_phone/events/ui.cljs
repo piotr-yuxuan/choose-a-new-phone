@@ -1,6 +1,7 @@
 (ns choose-a-new-phone.events.ui
   (:require [re-frame.core :as re-frame]
-            [choose-a-new-phone.db :as db]))
+            [choose-a-new-phone.db :as db])
+  (:require-macros [choose-a-new-phone.core :as clj-core]))
 
 (re-frame/reg-event-db
   ::phone-dialog
@@ -12,4 +13,5 @@
 (re-frame/reg-event-db
   ::initialize-db
   (fn [db _]
-    db/default-db))
+    (merge db/default-db
+           (clj-core/dehydrated-db))))

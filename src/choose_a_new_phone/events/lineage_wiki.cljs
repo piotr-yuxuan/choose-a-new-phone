@@ -54,10 +54,22 @@
                             (apply max))
       :latest-release (domain/release-to-latest (:release phone)))))
 
+(defn- temp-hydrate-phone
+  [temp-dehydrated phone]
+  (when phone
+    (assoc phone
+      :price-hint (some #(and (= (:name phone) (:name %))
+                              (= (.format (:latest-release phone) "YYYY")
+                                 (:release-year %))
+                              (:price-hint %))
+                        temp-dehydrated))))
+
 (re-frame/reg-event-fx
   ::fetch-phone-success
   (fn [{:keys [db]} [_ file result]]
-    (if-let [phone (lineage-wiki->phone file result)]
+    (if-let [phone (->> result
+                        (lineage-wiki->phone file)
+                        (temp-hydrate-phone (:temp-dehydrated db)))]
       {:db (-> db
                (update :pending-phone-request dec) ;; interceptor?
                (update :phones conj phone))}
