@@ -1,6 +1,6 @@
 #+TITLE: choose-a-new-phone
 
-[[https://piotr-yuxuan.github.io/choose-a-new-phone][website]]
+[[https://piotr-yuxuan.github.io/choose-a-new-phone][Website]]
 
 A simple [[https://github.com/Day8/re-frame][re-frame]] application designed to help you choose the most
 recent LineageOS phone with the latest android version.
