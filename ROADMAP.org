@@ -20,3 +20,5 @@ lazy list instead. At first it only contains the nine first items,
 then as you scroll down, it expand. You don't receive images in order,
 a lazy list of nine phones doesn't mean only 9 pictures will be
 fetched, but it will dramatically reduce the effort.
+* Short 'Getting started'
+Write a short presentation of this code, its structure and how it works so anyone can easily update this code.
