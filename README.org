@@ -1,4 +1,8 @@
 #+TITLE: choose-a-new-phone
 
+[website](https://piotr-yuxuan.github.io/choose-a-new-phone)
+
 A simple [[https://github.com/Day8/re-frame][re-frame]] application designed to help you choose the most
-recent phone with the latest android version.
+recent LineageOS phone with the latest android version.
+
+[Roadmap](https://github.com/piotr-yuxuan/choose-a-new-phone/blob/master/ROADMAP.org)
