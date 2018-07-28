@@ -36,12 +36,13 @@
                   :timeout 8000 ;; optional see API docs
                   :response-format (ajax/raw-response-format)
                   :on-success [::fetch-phone-success file]
-                  :on-failure [::fetch-phone-failure]}}))
+                  :on-failure [::fetch-phone-failure file]}}))
 
 (re-frame/reg-event-fx
   ::fetch-phone-failure
-  (fn [_ _]
-    {}))
+  (fn [{:keys [db]} [_ file]]
+    {::effects/println (str "failed to fetch" (:path file))
+     :db (update db :pending-phone-request dec)}))
 
 (defn lineage-wiki->phone
   [file result]
