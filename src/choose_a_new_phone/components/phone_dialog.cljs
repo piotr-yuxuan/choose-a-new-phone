@@ -36,8 +36,9 @@
                       :left-icon (ic/device-battery-std)}]
       [mui/list-item {:primary-text (:info (first (:cameras phone)))
                       :left-icon (ic/image-photo-camera)}]
-      [mui/list-item {:primary-text (str (or (:price-hint phone)
-                                             "no price hint"))
+      [mui/list-item {:primary-text (if-let [price-hint (:price-hint phone)]
+                                      (str "~" price-hint "€")
+                                      "no hint")
                       :left-icon (ic/editor-attach-money)}]]]
     [progressive-img {:style {:margin-top 15
                               :margin-bottom 15
