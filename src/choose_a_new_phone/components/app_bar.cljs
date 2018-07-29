@@ -36,18 +36,33 @@
 (defn repo-link
   []
   [:a {:href "https://github.com/piotr-yuxuan/choose-a-new-phone"
+       :target "_blank"
        :style {:text-decoration :none
                :display :inline-flex
                :align-items :center}}
-   [:div {:style {:align-self :baseline
+   [:span {:style {:align-self :baseline
                   :margin-right 5
                   :color :white
                   :font-style :oblique}} "source"]
    [github-logo]])
 
+(def pray-emoticon "\uD83D\uDE4F")
+
+(defn donation-link
+  []
+  [:a {:href "https://donorbox.org/help-us-help-you-choose-your-next-phone"
+       :target "_blank"
+       :style {:text-decoration :none
+               :display :inline-flex
+               :align-items :center}}
+   [:span {:style {:align-self :baseline
+                  :margin-right 5
+                  :color :white
+                  :font-style :oblique}} "donation"] [:span {:style {:font-size "1.2em"}} pray-emoticon]])
+
 (defn title
   []
-  [:div "Choose your next LineageOS phone (" [repo-link] ")"])
+  [:div "Choose your next LineageOS phone (" [repo-link] ", " [donation-link] ")"])
 
 (defn app-bar
   []
