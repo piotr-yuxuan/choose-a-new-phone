@@ -19,15 +19,13 @@
          (when-not last-layer?
            ^{:key @layer-index}
            [:img (-> (merge-with merge el-attrs (nth progressive-img-attrs (dec @layer-index)))
-                     (update :style merge {:position :absolute
-                                           :display :inline
+                     (update :style merge {:display :inline
                                            :visibility :hidden})
                      (assoc :on-load #(swap! layer-index dec)
                             :on-error #(reset! error? true)))])
          (when-not first-layer?
            [:img (-> (merge-with merge el-attrs (nth progressive-img-attrs @layer-index))
-                     (update :style merge {:position :absolute
-                                           :display :inline}))])
+                     (update :style merge {:display :inline}))])
          (when @error?
            [ic/alert-error-outline {:style {:position :relative
                                             :width "50%"
