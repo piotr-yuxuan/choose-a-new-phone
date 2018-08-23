@@ -6,7 +6,7 @@
      :cljs (:require [cljsjs.moment]))
   #?(:clj (:import (java.util Date))))
 
-(defn- release-to-latest
+(defn release-to-latest
   [release]
   #?(:clj  (condp #(when (%1 %2) %2) release
              string? :>> #(f/parse (f/formatter "yyyy-MM") %)
