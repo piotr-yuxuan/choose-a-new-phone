@@ -10,7 +10,7 @@
                  [cljsjs/js-yaml "3.3.1-0"] ;; yaml for ClojureScript
                  [clj-time "0.14.4"] ;; time for Clojure
                  [cljsjs/moment "2.22.2-0"] ;; time for ClojureScript
-                 [re-frame "0.10.5"]
+                 [re-frame "0.10.6-SNAPSHOT"] ;; locally built atop e6e5b0f98957456c717edf1213ecc035328ab597
                  [clj-http "3.9.0"]
                  [hickory "0.7.1"]
                  [clj-time "0.14.4"]
