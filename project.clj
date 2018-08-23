@@ -27,6 +27,7 @@
                                     "target"]
   :figwheel {:css-dirs ["resources/public/css"]}
   :profiles {:dev {:dependencies [[binaryage/devtools "0.9.10"]
+                                  [figwheel-sidecar "0.5.17-SNAPSHOT"]
                                   [day8.re-frame/re-frame-10x "0.3.3-react16"] ;; keep "x.y.z-react16" suffix
                                   [cider/piggieback "0.3.6"]]
                    :plugins [[lein-figwheel "0.5.17-SNAPSHOT"]]}}
