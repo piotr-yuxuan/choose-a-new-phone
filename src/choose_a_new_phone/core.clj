@@ -11,7 +11,6 @@
   [& args]
   (println "Hello, World!"))
 
-
 (def headers
   {"Accept" "application/json, text/plain, */*"
    "Accept-Language" "en-US,en;q=0.5"
@@ -271,13 +270,3 @@
    {:name "Zenfone 2 (ZE500CL)", :release-year "2015", :price-hint 300}
    {:name "Zenfone 2 Laser (720p)", :release-year "2015", :price-hint 210}
    {:name "Zenfone 2 Laser/Selfie (1080p)", :release-year "2015", :price-hint 210}])
-
-(defn phones-from-cljs-runtime
-  "To be implemented"
-  []
-  nil)
-
-(defmacro dehydrated-db
-  []
-  {:temp-dehydrated (or (price-hints (phones-from-cljs-runtime))
-                        hard-coded-price-hints)})
