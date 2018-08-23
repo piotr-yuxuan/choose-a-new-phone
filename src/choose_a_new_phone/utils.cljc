@@ -4,6 +4,7 @@
 
 (defn yaml->map
   [s]
+  ;; FIXME cljs parser doesn't accept as much as clj one.
   #?(:clj  (yaml/parse-string s)
      :cljs (try (->> s
                      (.load js/jsyaml)
