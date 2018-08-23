@@ -2,6 +2,7 @@
   (:require [ajax.core :as ajax]
             [choose-a-new-phone.effects :as effects]
             [re-frame.core :as re-frame]
+            [choose-a-new-phone.utils :as utils]
             [clojure.string :as str]))
 
 (re-frame/reg-event-fx
@@ -9,7 +10,10 @@
   (fn [_ [_ phone]]
     (let [manufacturer (str/lower-case (:vendor phone))
           ;; plausible-name should be stripped of name suffixes.
-          plausible-name (js/encodeURIComponent (str/lower-case (:name phone)))]
+          plausible-name (->> phone
+                              :name
+                              str/lower-case
+                              utils/url-encode)]
       {::effects/println "fetching phone price"
        ::effects/http-xhrio {:method :get
                              :uri (str "https://api.bestbuy.com/v1/products(releaseDate>=2018-01-01&releaseDate<=2018-12-31&manufacturer=" manufacturer "&name=" plausible-name "*)")

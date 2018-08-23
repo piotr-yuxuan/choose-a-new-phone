@@ -3,8 +3,7 @@
             [hickory.core :as hickory]
             [hickory.select :as s]
             [clojure.string :as str])
-  (:gen-class)
-  (:import (java.net URLEncoder)))
+  (:gen-class))
 
 (defn -main
   "I don't do a whole lot yet."
@@ -17,10 +16,6 @@
    "Connection" "keep-alive"
    "Pragma" "no-cache"
    "Cache-Control" "no-cache"})
-
-(defn url-encode
-  [arg]
-  (URLEncoder/encode (str arg) "UTF-8"))
 
 (defn fetch-price-hint
   "To be implemented"

@@ -1,6 +1,7 @@
 (ns choose-a-new-phone.utils
   #?(:clj  (:require [yaml.core :as yaml])
-     :cljs (:require [cljsjs.js-yaml])))
+     :cljs (:require [cljsjs.js-yaml]))
+  #?(:clj (:import (java.net URLEncoder))))
 
 (defn yaml->map
   [s]
@@ -13,3 +14,8 @@
                 (catch :default _
                   ;; too fragile, some device descriptions aren't properly formatted
                   ))))
+
+(defn url-encode
+  [arg]
+  #?(:clj  (URLEncoder/encode (str arg) "UTF-8")
+     :cljs (js/encodeURIComponent arg)))
