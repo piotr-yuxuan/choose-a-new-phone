@@ -1,6 +1,6 @@
 (ns choose-a-new-phone.effects
   (:require [re-frame.core :as re-frame]
-            [re-frame.interop :as re-frame.interop]
+            [re-frame.interop :as re-frame.interop] ;; keep it as a hint when you'll need it to actually dispatch an event in an effect handler.
             #?(:clj [clj-http.client :as client])))
 
 (def ^:private protected-effects
