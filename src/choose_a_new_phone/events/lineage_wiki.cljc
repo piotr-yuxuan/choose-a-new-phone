@@ -54,9 +54,8 @@
 (re-frame/reg-event-db
   ::parse-yaml-file
   (fn [db [_ file result]]
-    (if-let [phone (->> result
-                        (enrich-phone-result file))]
-      (update db :phones conj phone)
+    (if-let [phone (enrich-phone-result file result)]
+      (update db :phones (comp set conj) phone)
       (update db :failed-parsing conj #:file{:path file
                                              :content result}))))
 

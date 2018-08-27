@@ -19,4 +19,4 @@
   (let [dehydrated-db (dehydrated-default-db)]
     (-> (t/reader :json)
         (t/read dehydrated-db)
-        (update :phones #(map phone+derived-values %)))))
+        (update :phones (comp set #(map phone+derived-values %))))))

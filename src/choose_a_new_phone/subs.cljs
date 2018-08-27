@@ -11,7 +11,7 @@
       (when (need-refresh? (:phones @app-db))
         (re-frame/dispatch [::lineage-wiki/get-phone-list]))
       (reagent.ratom/make-reaction
-        (fn [] (:phones @app-db))
+        (fn [] (set (map db/phone+derived-values (:phones @app-db))))
         :on-dispose (fn [])))))
 
 (re-frame/reg-sub
