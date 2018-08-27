@@ -8,7 +8,7 @@
             [cljs-react-material-ui.reagent :as mui]))
 
 (defn phone-card
-  [phone] ;; will get rendered each time it's modified; suboptimal?
+  [phone] ;; will get rendered each time object attribute :latest-release is modified; suboptimal?
   [:div {:style {:width "33%"
                  :min-width 380}
          :key (hash phone)}

@@ -9,5 +9,5 @@
   #?(:clj  {:id->provider->phone {}
             :pending-phone-request 0}
      :cljs (let [dehydrated-db (dehydrated-default-db)]
-             (-> (t/reader :json-verbose {:handlers {"datetime" (fn [s] (js/moment s))}})
+             (-> (t/reader :json {:handlers {"datetime" (fn [s] (js/moment s))}})
                  (t/read dehydrated-db)))))
