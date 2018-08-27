@@ -1,7 +1,8 @@
 (ns choose-a-new-phone.effects
   (:require [re-frame.core :as re-frame]
             [re-frame.interop :as re-frame.interop] ;; keep it as a hint when you'll need it to actually dispatch an event in an effect handler.
-            #?(:clj [clj-http.client :as client])))
+            #?(:clj [clj-http.client :as client])
+            #?(:clj [clj-http.conn-mgr :as conn-mgr])))
 
 (def ^:private protected-effects
   #{:db :cofx})
@@ -59,8 +60,10 @@
 
 #?(:clj
    (def http-connection-manager
-     (clj-http.conn-mgr/make-reuseable-async-conn-manager {:insecure? true ;; fuck you Oracle
-                                                           :threads connection-pool-threads})))
+     ;; You don't want this to be evaluated on bootstrap -- hint: it
+     ;; hangs REPL bootstrap.
+     (delay (conn-mgr/make-reuseable-async-conn-manager {:insecure? true ;; fuck you Oracle
+                                                         :threads connection-pool-threads}))))
 
 #?(:clj
    (defn- http-xhrio-get-single-request
@@ -78,7 +81,7 @@
        (client/get url
                    (merge {:headers default-headers
                            :async? true
-                           :connection-manager http-connection-manager}
+                           :connection-manager @http-connection-manager}
                           response-format
                           query-params
                           timeout)
