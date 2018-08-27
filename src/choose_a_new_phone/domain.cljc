@@ -7,12 +7,13 @@
   #?(:clj (:import (java.util Date))))
 
 (defn release-to-latest
+  "On Clojure side we use DateTime, whilst on ClojureScript side we use Moment."
   [release]
   #?(:clj  (condp #(when (%1 %2) %2) release
-             string? :>> #(c/to-date (f/parse (f/formatter "yyyy-MM") %))
-             int? :>> c/to-date
+             string? :>> #(f/parse (f/formatter "yyyy-MM") %)
+             int? :>> t/date-time
              coll? :>> #(t/latest (map release-to-latest (mapcat vals %)))
-             #(instance? Date %) :>> identity)
+             #(instance? Date %) :>> c/to-date-time)
      :cljs (condp #(when (%1 %2) %2) release
              string? :>> #(.utcOffset (js/moment % "YYYY-MM") 0 true)
              int? :>> #(.utcOffset (js/moment (str %) "YYYY") 0 true)
@@ -65,3 +66,21 @@
         14.1 "https://upload.wikimedia.org/wikipedia/commons/6/65/Android_Nougat_logo.png"
         15.1 "https://upload.wikimedia.org/wikipedia/commons/2/26/Android_Oreo_8.1_logo.svg"}
        version))
+
+(defn phone+derived-values
+  [phone]
+  (assoc phone
+    :display-card-status :collapsed
+    :highest-version (->> (:versions phone)
+                          (remove nil?)
+                          (apply max))
+    :latest-release (release-to-latest (:release phone))))
+
+;; Should it be completed?
+(defn phone-id
+  "Allow reconciliation across multiple providers."
+  [phone]
+  (let [latest-release (-> (:latest-release phone)
+                           #?(:clj  c/to-long
+                              :cljs (.valueOf)))]
+    [(:vendor phone) (:name phone) latest-release]))

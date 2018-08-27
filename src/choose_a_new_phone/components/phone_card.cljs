@@ -16,9 +16,7 @@
               :className "hover-zoom-5"
               :style {:margin 15
                       :transition "all .2s ease-in-out"
-                      :display (if @(re-frame/subscribe [::subs/phone-card-loaded? phone])
-                                 :flex
-                                 :none)}
+                      :display :flex}
               :on-click #(re-frame/dispatch [::ui/phone-dialog {:phone phone
                                                                 :open? true}])
               :expanded (= phone (:phone @(re-frame/subscribe [::subs/phone-dialog])))}

@@ -54,8 +54,10 @@
 (re-frame/reg-event-db
   ::parse-yaml-file
   (fn [db [_ file result]]
-    (if-let [phone (enrich-phone-result file result)]
-      (update db :phones (comp set conj) phone)
+    (if-let [phone (some->> result
+                            (enrich-phone-result file)
+                            domain/phone+derived-values)]
+      (assoc-in db [:id->provider->phone :lineage-wiki (domain/phone-id phone)] phone)
       (update db :failed-parsing conj #:file{:path file
                                              :content result}))))
 

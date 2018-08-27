@@ -1,22 +1,33 @@
 (ns choose-a-new-phone.core
   (:require [cognitect.transit :as transit]
             [choose-a-new-phone.events.lineage-wiki :as lineage-wiki]
-            [re-frame.db :as re-frame.db]
+            [choose-a-new-phone.events.db :as events.db]
             [clojure.java.io :as io]
+            [clj-time.coerce :as c]
             [re-frame.core :as re-frame]
             [clojure.string :as str])
+  (:import (com.cognitect.transit WriteHandler))
   (:gen-class))
 
 (def dehydrated-db-file
   "dehydrated-db.json")
 
+(def DateTimeHandler
+  (reify WriteHandler
+    (tag [this v] "datetime")
+    (rep [this v] (c/to-long v))
+    (stringRep [this v] nil)
+    (getVerboseHandler [_] nil)))
+
 (comment
-  (reset! re-frame.db/app-db {})
+  (re-frame/dispatch [::events.db/initialize-db])
   (re-frame/dispatch [::lineage-wiki/get-phone-list])
-  (count (vec (:phones @re-frame.db/app-db)))
+  (:pending-phone-request @re-frame.db/app-db)
 
   (with-open [output-stream (io/output-stream dehydrated-db-file)]
-    (let [writer (transit/writer output-stream :json)]
+    (let [writer (transit/writer output-stream
+                                 :json
+                                 {:handlers {org.joda.time.DateTime DateTimeHandler}})]
       (transit/write writer @re-frame.db/app-db)))
   )
 
