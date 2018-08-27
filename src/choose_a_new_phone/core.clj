@@ -1,9 +1,28 @@
 (ns choose-a-new-phone.core
-  (:require [clj-http.client :as client]
-            [hickory.core :as hickory]
-            [hickory.select :as s]
+  (:require [cognitect.transit :as transit]
+            [choose-a-new-phone.events.lineage-wiki :as lineage-wiki]
+            [re-frame.db :as re-frame.db]
+            [clojure.java.io :as io]
+            [re-frame.core :as re-frame]
             [clojure.string :as str])
   (:gen-class))
+
+(def dehydrated-db-file
+  "dehydrated-db.json")
+
+(comment
+  (reset! re-frame.db/app-db {})
+  (re-frame/dispatch [::lineage-wiki/get-phone-list])
+  (count (vec (:phones @re-frame.db/app-db)))
+
+  (with-open [output-stream (io/output-stream dehydrated-db-file)]
+    (let [writer (transit/writer output-stream :json)]
+      (transit/write writer @re-frame.db/app-db)))
+  )
+
+(defmacro dehydrated-default-db
+  []
+  (slurp dehydrated-db-file))
 
 (defn -main
   "I don't do a whole lot yet."

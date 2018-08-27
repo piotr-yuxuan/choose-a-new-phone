@@ -9,10 +9,10 @@
 (defn release-to-latest
   [release]
   #?(:clj  (condp #(when (%1 %2) %2) release
-             string? :>> #(f/parse (f/formatter "yyyy-MM") %)
-             int? :>> t/date-time
+             string? :>> #(c/to-date (f/parse (f/formatter "yyyy-MM") %))
+             int? :>> c/to-date
              coll? :>> #(t/latest (map release-to-latest (mapcat vals %)))
-             #(instance? Date %) :>> c/to-date-time)
+             #(instance? Date %) :>> identity)
      :cljs (condp #(when (%1 %2) %2) release
              string? :>> #(.utcOffset (js/moment % "YYYY-MM") 0 true)
              int? :>> #(.utcOffset (js/moment (str %) "YYYY") 0 true)
