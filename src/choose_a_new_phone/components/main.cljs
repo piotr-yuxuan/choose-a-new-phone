@@ -18,19 +18,13 @@
      [app-bar]
      (when-let [dialog-state @(re-frame/subscribe [::subs/phone-dialog])]
        [phone-dialog dialog-state])
-     (if display-phones?
-       [:div {:style {:display :flex
-                      :flex-direction :row
-                      :flex-wrap :wrap
-                      :justify-content :space-evenly
-                      :align-items :center
-                      :align-content :stretch
-                      :padding 5}}
-        (->> sorted-phones
-             (map phone-card)
-             doall)]
-       [:div {:style {:flex 1
-                      :display :flex
-                      :align-items :center
-                      :justify-content :center}}
-        [mui/circular-progress {:size 70}]])]))
+     [:div {:style {:display :flex
+                    :flex-direction :row
+                    :flex-wrap :wrap
+                    :justify-content :space-evenly
+                    :align-items :center
+                    :align-content :stretch
+                    :padding 5}}
+      (->> sorted-phones
+           (map phone-card)
+           doall)]]))

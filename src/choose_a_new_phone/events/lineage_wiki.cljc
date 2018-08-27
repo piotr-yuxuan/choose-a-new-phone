@@ -39,16 +39,11 @@
   (fn [{:keys [db]} [_ file]]
     {:db (update db :pending-phone-request dec)}))
 
-(defn lineage-wiki->phone
+(defn enrich-phone-result
   [file result]
   (when-let [phone (utils/yaml->map result)]
     (assoc phone
-      :file file
-      :display-card-status :collapsed
-      :highest-version (->> (:versions phone)
-                            (remove nil?)
-                            (apply max))
-      :latest-release (domain/release-to-latest (:release phone)))))
+      :file file)))
 
 (re-frame/reg-event-fx
   ::fetch-phone-success
@@ -59,7 +54,8 @@
 (re-frame/reg-event-db
   ::parse-yaml-file
   (fn [db [_ file result]]
-    (if-let [phone (lineage-wiki->phone file result)]
+    (if-let [phone (->> result
+                        (enrich-phone-result file))]
       (update db :phones conj phone)
       (update db :failed-parsing conj #:file{:path file
                                              :content result}))))

@@ -12,4 +12,4 @@
 (re-frame/reg-event-db
   ::initialize-db
   (fn [db _]
-    db/default-db))
+    (db/default-db)))

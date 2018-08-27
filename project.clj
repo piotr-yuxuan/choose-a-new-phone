@@ -15,6 +15,7 @@
                  [hickory "0.7.1"]
                  [clj-time "0.14.4"]
                  [com.cognitect/transit-clj "0.8.313"]
+                 [com.cognitect/transit-cljs "0.8.256"]
                  [org.clojure/data.json "0.2.6"]]
   :plugins [[lein-cljsbuild "1.1.7"]
             [lein-shell "0.5.0"]]
