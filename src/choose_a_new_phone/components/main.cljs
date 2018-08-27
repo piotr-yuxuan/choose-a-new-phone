@@ -10,7 +10,8 @@
   []
   (let [sorted-phones (seq @(re-frame/subscribe [::subs/sorted-phones]))
         pending-request? @(re-frame/subscribe [::subs/pending-phone-request?])
-        display-phones? (and (not pending-request?) sorted-phones)]
+        display-phones? (and (< 190 (count sorted-phones))
+                             (seq sorted-phones))]
     [:div (when-not display-phones?
             {:style {:display :flex
                      :height "100%"

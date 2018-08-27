@@ -7,7 +7,7 @@
 (re-frame/reg-sub-raw
   ::phones
   (fn [app-db _]
-    (let [need-refresh? empty?]
+    (let [need-refresh? (fn [phones] (< 190 (count phones)))]
       (when (need-refresh? (:phones @app-db))
         (re-frame/dispatch [::lineage-wiki/get-phone-list]))
       (reagent.ratom/make-reaction
