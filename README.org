@@ -5,4 +5,28 @@
 A simple [[https://github.com/Day8/re-frame][re-frame]] application designed to help you choose the most
 recent LineageOS phone with the latest android version.
 
+This is a pet project I use to exercice myself to design and code with
+style. This is an on-going work.
+
+Apart from this educational side, we can find quite a few buzzwords to
+describe this project:
+
+- *Reactive programming* thanks to re-frame. Data are rendered only
+  when changed. Change flow is unidirectional so no loop can happen.
+- *Functional* programming so it uses Clojure functions which are
+  pure.
+- *Edge computing* because the long-term goal is to have all the work
+  done by clients. Server or Cloud functions (à la Amazon Lambda)
+  simply shouln't need to exist at all.
+- *Isomorphic* because most of the code logic (apart from rendering)
+  can be executed seamlessly in Clojure runtime in the JVM or in
+  ClojureScript runtime in JavaScript environment.
+- *Dehydrated data* because each client embeds reasonably up-to-date
+  data which are refreshed on start in order to improve time to first
+  rendering.
+- *Server-rendering* but actually there isn't anything like a server
+  here, so compile-time-rendering. The loaded page actually is already
+  a reasonably up to date rendering of the script and shouldn't change
+  that much over time.
+
 [[https://github.com/piotr-yuxuan/choose-a-new-phone/blob/master/ROADMAP.org][Roadmap]]
