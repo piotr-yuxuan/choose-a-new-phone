@@ -1,0 +1,12 @@
+html, body, #app {
+    margin: 0;
+    height: 100%;
+}
+
+.hover-zoom-10:hover {
+    transform: scale(1.1);
+}
+
+.hover-zoom-5:hover {
+    transform: scale(1.05);
+}

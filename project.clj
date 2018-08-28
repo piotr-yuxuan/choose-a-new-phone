@@ -2,6 +2,7 @@
   :dependencies [[org.clojure/clojure "1.10.0-alpha6"]
                  [org.clojure/clojurescript "1.10.339"]
                  [reagent "0.8.2-SNAPSHOT"]
+                 [etaoin "0.2.8-SNAPSHOT"]
                  [cljs-react-material-ui "0.2.50"]
                  [cljsjs/react "16.4.1-0"] ;; I should exclude it from other project, right?
                  [cljsjs/react-dom "16.4.1-0"]
@@ -13,6 +14,7 @@
                  [re-frame "0.10.6-SNAPSHOT"] ;; locally built atop e6e5b0f98957456c717edf1213ecc035328ab597
                  [clj-http "3.9.1"]
                  [hickory "0.7.1"]
+                 [hiccup "1.0.5"]
                  [clj-time "0.14.4"]
                  [com.cognitect/transit-clj "0.8.313"]
                  [com.cognitect/transit-cljs "0.8.256"]
