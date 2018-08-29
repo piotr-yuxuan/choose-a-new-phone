@@ -54,7 +54,6 @@
                                    :closure-defines {goog.DEBUG false}
                                    :pretty-print false}}]}
   :aliases {"prod-compile" ["do"
-                            "clean"
                             "refresh-prod-index-html"
                             ["cp" "resources/public/css/style.css" "docs/css/style.css"] ;; while I don't use garden here
                             ["cljsbuild" "once" "min"]]
