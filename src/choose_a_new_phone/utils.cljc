@@ -19,3 +19,13 @@
   [arg]
   #?(:clj  (URLEncoder/encode (str arg) "UTF-8")
      :cljs (js/encodeURIComponent arg)))
+
+(defn map->ns-map
+  [n m]
+  (->> m
+       (map (fn [[k v]] (let [new-k (if (and (keyword? k)
+                                             (not (qualified-keyword? k)))
+                                      (keyword (str n) (name k))
+                                      k)]
+                          [new-k v])))
+       (into (empty m))))
