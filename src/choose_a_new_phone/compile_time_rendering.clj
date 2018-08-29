@@ -33,7 +33,7 @@
     :or {instance-uri "http://localhost:3449"
          driver-opts {:path-browser "/Applications/Firefox Developer Edition.app/Contents/MacOS/firefox"
                       :headless true}}}]
-  (println "Needs an active local figwheel instance or appropriate override. Otherwise an exception will be thrown.")
+  (println "Helper: needs an active local figwheel instance or appropriate override. Otherwise an exception will be thrown immediately after this message.")
   (let [inner-html (etaoin/with-firefox driver-opts driver
                      (etaoin/go driver instance-uri)
                      (etaoin/wait 15) ;; ugly WIP hack: wait for refresh to be finished
