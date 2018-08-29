@@ -25,9 +25,8 @@
   :license {:name "GNU GPL v3+"
             :url "http://www.gnu.org/licenses/gpl-3.0.en.html"}
   :source-paths ["src"]
-  :clean-targets ^{:protect false} ["resources/public/js/compiled"
-                                    "resources/public/css/stylesheet.css"
-                                    "docs"
+  :clean-targets ^{:protect false} ["resources/public/js/compiled/app.js"
+                                    "resources/public/js/compiled/out"
                                     "target"]
   :figwheel {:css-dirs ["resources/public/css"]}
   :profiles {:dev {:dependencies [[binaryage/devtools "0.9.10"]
@@ -50,11 +49,17 @@
                        {:id "min"
                         :source-paths ["src"]
                         :compiler {:main choose-a-new-phone.core
-                                   :output-to "resources/public/js/compiled/app.js"
+                                   :output-to "docs/js/compiled/app.js"
                                    :optimizations :advanced
                                    :closure-defines {goog.DEBUG false}
                                    :pretty-print false}}]}
   :aliases {"prod-compile" ["do"
-                       "clean"
-                       ["cljsbuild" "once" "min"]
-                       ["shell" "cp" "-r" "resources/public" "docs"]]})
+                            "clean"
+                            "refresh-prod-index-html"
+                            ["cp" "resources/public/css/style.css" "docs/css/style.css"] ;; while I don't use garden here
+                            ["cljsbuild" "once" "min"]]
+            "refresh-prod-index-html" ["run" "-m" "choose-a-new-phone.compile-time-rendering/cli"
+                                                    ":prod?" "true"
+                                                    ":index-html" "\"docs/index.html\""]
+            "refresh-dev-index-html" ["run" "-m" "choose-a-new-phone.compile-time-rendering/cli"
+                                                   ":index-html" "\"resources/public/index.html\""]})
