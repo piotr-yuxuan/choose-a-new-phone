@@ -41,9 +41,11 @@
 
 (defn enrich-phone-result
   [file result]
-  (when-let [phone (utils/yaml->map result)]
+  (when-let [phone (->> result
+                        utils/yaml->map
+                        (utils/map->ns-map "lineage-wiki"))]
     (assoc phone
-      :file file)))
+      :lineage-wiki/file file)))
 
 (re-frame/reg-event-fx
   ::fetch-phone-success
@@ -57,7 +59,7 @@
     (if-let [phone (some->> result
                             (enrich-phone-result file)
                             domain/phone+derived-values)]
-      (assoc-in db [:id->provider->phone :lineage-wiki (domain/phone-id phone)] phone)
+      (assoc-in db [:id->phone (domain/phone-id phone)] phone)
       (update db :failed-parsing conj #:file{:path file
                                              :content result}))))
 

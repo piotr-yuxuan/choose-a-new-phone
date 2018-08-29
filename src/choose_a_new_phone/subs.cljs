@@ -5,9 +5,9 @@
 (re-frame/reg-sub
   ::phones
   (fn [db _]
-    (let [id->provider->phone (:id->provider->phone db)
-          provider->phone (vals id->provider->phone)]
-      (mapcat vals provider->phone))))
+    (->> db
+         :id->phone
+         vals)))
 
 (re-frame/reg-sub
   ::sorted-phones

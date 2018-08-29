@@ -27,11 +27,11 @@
 
 (defn sort-latest-device
   [phones]
-  (reverse (sort-by (juxt (comp #(.valueOf %) :latest-release)
-                          (comp min :price-tags)
+  (reverse (sort-by (juxt (comp #(.valueOf %) :lineage-wiki/latest-release)
+                          (comp min :lineage-wiki/price-tags)
                           ;; also sort by name, so X Pro Plus 2 is after X Pro,
                           ;; even when release dates are the same.
-                          :name)
+                          :lineage-wiki/name)
                     phones)))
 
 (def api-directory-content-prefix
@@ -46,7 +46,7 @@
 
 (defn phone-image-url
   [phone]
-  (str raw-master-blob-prefix "images/devices/" (:image phone)))
+  (str raw-master-blob-prefix "images/devices/" (:lineage-wiki/image phone)))
 
 (defn phone-spec-file-url
   [file]
@@ -70,17 +70,17 @@
 (defn phone+derived-values
   [phone]
   (assoc phone
-    :display-card-status :collapsed
-    :highest-version (->> (:versions phone)
+    :lineage-wiki/display-card-status :collapsed
+    :lineage-wiki/highest-version (->> (:lineage-wiki/versions phone)
                           (remove nil?)
                           (apply max))
-    :latest-release (release-to-latest (:release phone))))
+    :lineage-wiki/latest-release (release-to-latest (:lineage-wiki/release phone))))
 
 ;; Should it be completed?
 (defn phone-id
   "Allow reconciliation across multiple providers."
   [phone]
-  (let [latest-release (-> (:latest-release phone)
+  (let [latest-release (-> (:lineage-wiki/latest-release phone)
                            #?(:clj  c/to-long
                               :cljs (.valueOf)))]
-    [(:vendor phone) (:name phone) latest-release]))
+    [(:lineage-wiki/vendor phone) (:lineage-wiki/name phone) latest-release]))

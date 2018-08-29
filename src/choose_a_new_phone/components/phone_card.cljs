@@ -20,9 +20,9 @@
               :on-click #(re-frame/dispatch [::ui/phone-dialog {:phone phone
                                                                 :open? true}])
               :expanded (= phone (:phone @(re-frame/subscribe [::subs/phone-dialog])))}
-    [mui/card-header {:title (str/join " " [(:vendor phone) (:name phone)])
-                      :subtitle (str "Device released " (.fromNow (:latest-release phone)))
-                      :avatar (domain/version-logo (:highest-version phone))
+    [mui/card-header {:title (str/join " " [(:lineage-wiki/vendor phone) (:lineage-wiki/name phone)])
+                      :subtitle (str "Device released " (.fromNow (:lineage-wiki/latest-release phone)))
+                      :avatar (domain/version-logo (:lineage-wiki/highest-version phone))
                       :showExpandableButton true}]
     [mui/card-text {:style {:display :flex
                             :justify-content :space-around

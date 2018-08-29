@@ -6,7 +6,7 @@
 (defn default-db
   "Show intent. Only give keys as dehydrated db will replace values"
   []
-  #?(:clj  {:id->provider->phone {}
+  #?(:clj  {:id->phone {}
             :pending-phone-request 0}
      :cljs (let [dehydrated-db (dehydrated-default-db)]
              (-> (t/reader :json {:handlers {"datetime" (fn [s] (js/moment s))}})
