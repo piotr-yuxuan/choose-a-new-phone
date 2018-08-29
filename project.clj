@@ -62,4 +62,5 @@
                                                     ":refresh?" "true"
                                                     ":index-html" "\"docs/index.html\""]
             "refresh-dev-index-html" ["run" "-m" "choose-a-new-phone.compile-time-rendering/cli"
-                                                   ":refresh?" "true"]})
+                                                   ":refresh?" "true"]
+            "dev-index-html" ["run" "-m" "choose-a-new-phone.compile-time-rendering/cli"]})
