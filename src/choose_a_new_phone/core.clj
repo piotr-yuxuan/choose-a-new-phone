@@ -4,9 +4,7 @@
             [choose-a-new-phone.events.db :as events.db]
             [clojure.java.io :as io]
             [clj-time.coerce :as c]
-            [hiccup.core :as hiccup]
             [hiccup.page :refer [include-js include-css html5]]
-            [etaoin.api :as etaoin]
             [re-frame.core :as re-frame]
             [clojure.string :as str])
   (:import (com.cognitect.transit WriteHandler))
@@ -21,32 +19,6 @@
     (rep [this v] (c/to-long v))
     (stringRep [this v] nil)
     (getVerboseHandler [_] nil)))
-
-(defn get-element-inner-html-el
-  "Returns element's inner text by its identifier."
-  [driver el]
-  (etaoin/with-resp driver :get
-                    [:session (:session @driver) :element el :property :innerHTML]
-                    nil
-                    resp
-                    (-> resp :value)))
-
-(defn get-element-inner-html
-  "Returns element's inner HTML.
-  For element `el` in `<div id=\"el\"><p class=\"foo\">hello</p></div>` it will
-  be \"<p class=\"foo\">hello</p>\" string.
-"
-  [driver q]
-  (get-element-inner-html-el driver (etaoin/query driver q)))
-
-(defn get-app-inner-html!
-  []
-  (etaoin/with-firefox {:path-browser "/Applications/Firefox Developer Edition.app/Contents/MacOS/firefox"
-                        :headless true}
-                       driver ;; binding for firefox
-                       (etaoin/go driver "https://piotr-yuxuan.github.io/choose-a-new-phone/") ;; ugly WIP hack: should be localhost
-                       (etaoin/wait 15) ;; ugly WIP hack: wait for refresh to be finished
-                       (get-element-inner-html driver {:id "app"})))
 
 (comment
   (re-frame/dispatch [::events.db/initialize-db])
@@ -65,30 +37,8 @@
   (slurp dehydrated-db-file))
 
 (defn -main
-  "Export static state for SEO and smooth display (WIP)"
-  [& args]
-  (spit "resources/public/index.html"
-        (html5
-         [:html {:lang "en"}
-          [:head
-           [:meta {:charset "utf-8"}]
-           [:script {:type "text/javascript"
-                     :async :true
-                     :src "https://www.googletagmanager.com/gtag/js?id=UA-122750709-1"}]
-           [:script {:type "text/javascript"}
-            "
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-
-gtag('config', 'UA-122750709-1');"]
-           (include-css "css/style.css")]
-          [:body
-           [:div {:id "app"}
-            (get-app-inner-html!)]
-           (include-js "js/compiled/app.js")
-           [:script {:type "text/javascript"}
-            "choose_a_new_phone.core.init();"]]])))
+  ""
+  [& args])
 
 (def headers
   {"Accept" "application/json, text/plain, */*"
