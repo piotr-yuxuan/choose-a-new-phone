@@ -54,7 +54,7 @@
                                    :optimizations :advanced
                                    :closure-defines {goog.DEBUG false}
                                    :pretty-print false}}]}
-  :aliases {"compile" ["do"
+  :aliases {"prod-compile" ["do"
                        "clean"
                        ["cljsbuild" "once" "min"]
                        ["shell" "cp" "-r" "resources/public" "docs"]]})
