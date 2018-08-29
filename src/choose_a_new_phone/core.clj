@@ -11,7 +11,7 @@
   (:gen-class))
 
 (def dehydrated-db-file
-  "dehydrated-db.json")
+  "resources/dehydrated-db.json")
 
 (def DateTimeHandler
   (reify WriteHandler
