@@ -8,10 +8,10 @@
             [cljs-react-material-ui.reagent :as mui]))
 
 (defn phone-card
-  [phone] ;; will get rendered each time object attribute :latest-release is modified; suboptimal?
+  [phone]
   [:div {:style {:width "33%"
                  :min-width 380}
-         :key (hash phone)}
+         :key (domain/phone-id phone)}
    [mui/card {:container-style {:width "100%"}
               :className "hover-zoom-5"
               :style {:margin 15
