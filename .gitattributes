@@ -1,0 +1,8 @@
+docs/* linguist-generated=true
+resources/* linguist-generated=true
+target/* linguist-generated=true
+
+README.org linguist-documentation=true
+COPYING linguist-documentation=true
+LICENSE linguist-documentation=true
+ROADMAP.org linguist-documentation=true
