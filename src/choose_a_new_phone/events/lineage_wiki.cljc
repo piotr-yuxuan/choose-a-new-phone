@@ -42,9 +42,8 @@
 (defn enrich-phone-result
   [file result]
   (when-let [phone (->> result
-                        utils/yaml->map
-                        (utils/map->ns-map "lineage-wiki"))]
-    (assoc phone
+                        utils/yaml->map)]
+    (assoc (utils/map->ns-map "lineage-wiki" phone)
       :lineage-wiki/file file)))
 
 (re-frame/reg-event-fx
