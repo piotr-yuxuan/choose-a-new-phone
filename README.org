@@ -31,6 +31,22 @@ describe this project:
   a reasonably up to date rendering of the script and shouldn't change
   that much over time.
 
+** Why both Clojure isomorphism and compile-time-rendering?
+Right now I have two mechanisms which could appear redundant:
+
+- Rendering =index.html= at compile time with an external browser
+  actually builds the latest app-db state available. For that purpose
+  I use library =etaoin= and Firefox (latest, Developer Edition). I
+  could extract latest app-db from that.
+- Isomorphic cljs allows me to builds the latest app-db state
+  available but no rendering.
+
+However, I don't want to couple initial html rendering with app-db
+state construction. The two are rather different. In some situation, a
+breaking change can actually result with the previous app-db being
+incompatible with new code so I want to maintain a strict separation
+between the two which gives more flexibility and more power.
+
 ** Addendum to make sure the license is GPL
 
 Copyright (C) 2018  胡雨軒 Петр

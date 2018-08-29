@@ -60,6 +60,7 @@
                             ["cljsbuild" "once" "min"]]
             "refresh-prod-index-html" ["run" "-m" "choose-a-new-phone.compile-time-rendering/cli"
                                                     ":prod?" "true"
+                                                    ":refresh?" "true"
                                                     ":index-html" "\"docs/index.html\""]
             "refresh-dev-index-html" ["run" "-m" "choose-a-new-phone.compile-time-rendering/cli"
-                                                   ":index-html" "\"resources/public/index.html\""]})
+                                                   ":refresh?" "true"]})

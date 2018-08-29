@@ -32,7 +32,7 @@
            driver-opts]
     :or {instance-uri "http://localhost:3449"
          driver-opts {:path-browser "/Applications/Firefox Developer Edition.app/Contents/MacOS/firefox"
-                      :headless false}}}]
+                      :headless true}}}]
   (println "Needs an active local figwheel instance or appropriate override. Otherwise an exception will be thrown.")
   (let [inner-html (etaoin/with-firefox driver-opts driver
                      (etaoin/go driver instance-uri)
@@ -72,12 +72,11 @@ gtag('config', 'UA-122750709-1');"])
 
 (defn render-index
   "Export static state for SEO and smooth display (WIP)"
-  [{:keys [prod?] :as args}]
+  [{:keys [refresh?] :as args}]
   (let [index-html-file (if (contains? args :index-html)
                           (:index-html args)
                           "resources/public/index.html")]
-    (println "YAY" (pr-str index-html-file) (pr-str args))
-    (when prod?
+    (when refresh?
       (refresh-static-app-div! args))
     (->> (index-html-markup args)
          hiccup.page/html5
