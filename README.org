@@ -41,11 +41,12 @@ Right now I have two mechanisms which could appear redundant:
 - Isomorphic cljs allows me to builds the latest app-db state
   available but no rendering.
 
-However, I don't want to couple initial html rendering with app-db
-state construction. The two are rather different. In some situation, a
-breaking change can actually result with the previous app-db being
-incompatible with new code so I want to maintain a strict separation
-between the two which gives more flexibility and more power.
+However, I don't want to couple initial html rendering with initial
+app-db state construction. The two are rather different. In some
+situation, a breaking change can actually result with the previous
+app-db being incompatible with new code so I want to maintain a strict
+separation between the two which gives more flexibility and more
+power.
 
 ** Addendum to make sure the license is GPL
 
