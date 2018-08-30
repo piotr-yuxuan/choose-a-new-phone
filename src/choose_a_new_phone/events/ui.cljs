@@ -13,3 +13,8 @@
   ::initialize-db
   (fn [db _]
     (db/default-db)))
+
+(re-frame/reg-event-db
+  ::display-more-phones
+  (fn [db _]
+    (update db :ui/phone-list-length + db/ui-default-page-lenth)))
