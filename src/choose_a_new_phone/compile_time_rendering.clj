@@ -44,7 +44,7 @@
            driver-opts]
     :or {instance-uri "http://localhost:3449"
          driver-opts {:path-browser "/Applications/Firefox Developer Edition.app/Contents/MacOS/firefox"
-                      :headless false}}}]
+                      :headless true}}}]
   (println "Helper: needs an active local figwheel instance or
   appropriate override. Otherwise an exception will be thrown
   immediately after this message.")
