@@ -1,7 +1,8 @@
 (ns choose-a-new-phone.compile-time-rendering
   (:require [hiccup.core :as hiccup]
             [hiccup.page :as hiccup.page]
-            [etaoin.api :as etaoin]))
+            [etaoin.api :as etaoin])
+  (:import (java.net SocketTimeoutException)))
 
 (defn get-element-inner-html-el
   "Returns element's inner text by its identifier."
@@ -13,9 +14,9 @@
     (-> resp :value)))
 
 (defn get-element-inner-html
-  "Returns element's inner HTML.
-  For element `el` in `<div id=\"el\"><p class=\"foo\">hello</p></div>` it will
-  be \"<p class=\"foo\">hello</p>\" string."
+  "Returns element's inner HTML. For element `el` in `<div id=\"el\"><p
+  class=\"foo\">hello</p></div>` it will be \"<p
+  class=\"foo\">hello</p>\" string."
   [driver q]
   (get-element-inner-html-el driver (etaoin/query driver q)))
 
@@ -26,17 +27,31 @@
   []
   (slurp static-app-div-file))
 
+(defn open-url-loop [driver instance-uri]
+  (try
+    (etaoin/go driver instance-uri)
+    (catch SocketTimeoutException _e
+      (println "Warning: page took too long to load so controlled
+      browser timed out. Leveraging page load idempotency by
+      reloading. It should be faster with cached content from the
+      previous attempt.")
+      (open-url-loop driver instance-uri))))
+
 (defn refresh-static-app-div!
-  "Refresh and return nil. Then you can get refreshed static app. Needs an active local figwheel instance or appropriate override."
+  "Refresh and return nil. Then you can get refreshed static app. Needs
+  an active local figwheel instance or appropriate override."
   [{:keys [instance-uri
            driver-opts]
     :or {instance-uri "http://localhost:3449"
          driver-opts {:path-browser "/Applications/Firefox Developer Edition.app/Contents/MacOS/firefox"
-                      :headless true}}}]
-  (println "Helper: needs an active local figwheel instance or appropriate override. Otherwise an exception will be thrown immediately after this message.")
+                      :headless false}}}]
+  (println "Helper: needs an active local figwheel instance or
+  appropriate override. Otherwise an exception will be thrown
+  immediately after this message.")
   (let [inner-html (etaoin/with-firefox driver-opts driver
-                     (etaoin/go driver instance-uri)
-                     (etaoin/wait 15) ;; ugly WIP hack: wait for refresh to be finished
+                     (open-url-loop driver instance-uri)
+                     ;; ugly WIP hack: wait 15s after page load is finished so data can be refreshed
+                     (etaoin/wait 15)
                      (get-element-inner-html driver {:id "app"}))]
     (spit static-app-div-file inner-html)
     nil))
