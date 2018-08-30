@@ -34,4 +34,4 @@
                                                 (reset! error? false)
                                                 (swap! layer-index inc))}])
          (when-not (or @error? last-layer?)
-           [mui/circular-progress])]))))
+           [mui/circular-progress {:style {:position :absolute}}])]))))
