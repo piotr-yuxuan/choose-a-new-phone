@@ -1,7 +1,9 @@
 (ns choose-a-new-phone.components.main
   (:require [re-frame.core :as re-frame]
+            [goog.object :as object]
             [choose-a-new-phone.subs :as subs]
-            [cljs-react-material-ui.reagent :as mui]
+            [choose-a-new-phone.events.ui :as ui]
+            [choose-a-new-phone.components.visible-back-stop :refer [visible-back-stop]]
             [choose-a-new-phone.components.app-bar :refer [app-bar]]
             [choose-a-new-phone.components.phone-dialog :refer [phone-dialog]]
             [choose-a-new-phone.components.phone-card :refer [phone-card]]))
@@ -9,6 +11,7 @@
 (defn panel
   []
   (let [sorted-phones (seq @(re-frame/subscribe [::subs/sorted-phones]))
+        phone-list-length (re-frame/subscribe [::subs/phone-list-length])
         display-phones? (and (< 190 (count sorted-phones))
                              (seq sorted-phones))]
     [:div (when-not display-phones?
@@ -27,4 +30,6 @@
                     :padding 5}}
       (->> sorted-phones
            (map phone-card)
-           doall)]]))
+           (take @phone-list-length)
+           doall)
+      [visible-back-stop {:on-visible-threshold (fn [_] (re-frame/dispatch [::ui/display-more-phones]))}]]]))
