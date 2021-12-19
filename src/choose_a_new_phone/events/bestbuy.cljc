@@ -1,9 +1,9 @@
 (ns choose-a-new-phone.events.bestbuy
-  (:require [ajax.core :as ajax]
-            [choose-a-new-phone.effects :as effects]
-            [re-frame.core :as re-frame]
+  (:require [choose-a-new-phone.effects :as effects]
             [choose-a-new-phone.utils :as utils]
-            [clojure.string :as str]))
+            [ajax.core :as ajax]
+            [clojure.string :as str]
+            [re-frame.core :as re-frame]))
 
 (re-frame/reg-event-fx
   ::fetch-phone-price

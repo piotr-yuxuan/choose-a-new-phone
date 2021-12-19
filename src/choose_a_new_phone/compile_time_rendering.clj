@@ -1,7 +1,7 @@
 (ns choose-a-new-phone.compile-time-rendering
-  (:require [hiccup.core :as hiccup]
-            [hiccup.page :as hiccup.page]
-            [etaoin.api :as etaoin])
+  (:require [etaoin.api :as etaoin]
+            [hiccup.core :as hiccup]
+            [hiccup.page :as hiccup.page])
   (:import (java.net SocketTimeoutException)))
 
 (defn get-element-inner-html-el

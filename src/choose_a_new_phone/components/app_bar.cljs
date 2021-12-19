@@ -1,7 +1,7 @@
 (ns choose-a-new-phone.components.app-bar
-  (:require [re-frame.core :as re-frame]
+  (:require [choose-a-new-phone.subs :as subs]
             [cljs-react-material-ui.reagent :as mui]
-            [choose-a-new-phone.subs :as subs]))
+            [re-frame.core :as re-frame]))
 
 (defn github-logo []
   [:svg {:version 1.1

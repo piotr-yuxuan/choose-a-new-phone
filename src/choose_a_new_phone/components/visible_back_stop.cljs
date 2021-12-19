@@ -1,7 +1,7 @@
 (ns choose-a-new-phone.components.visible-back-stop
   "Keep ip simple, stupid. This is enough for a simple lazy list."
-  (:require [reagent.core :as reagent]
-            [goog.object :as object]))
+  (:require [goog.object :as object]
+            [reagent.core :as reagent]))
 
 (defn check-visible-fn
   "Use thresholds. This implies that `on-visible-threshold` must result

@@ -1,12 +1,12 @@
 (ns choose-a-new-phone.core
-  (:require [cognitect.transit :as transit]
+  (:require [choose-a-new-phone.events.db :as events.db]
             [choose-a-new-phone.events.lineage-wiki :as lineage-wiki]
-            [choose-a-new-phone.events.db :as events.db]
-            [clojure.java.io :as io]
             [clj-time.coerce :as c]
+            [clojure.java.io :as io]
+            [clojure.string :as str]
+            [cognitect.transit :as transit]
             [hiccup.page :refer [include-js include-css html5]]
-            [re-frame.core :as re-frame]
-            [clojure.string :as str])
+            [re-frame.core :as re-frame])
   (:import (com.cognitect.transit WriteHandler))
   (:gen-class))
 

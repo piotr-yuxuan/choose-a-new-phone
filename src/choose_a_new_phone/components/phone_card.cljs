@@ -1,11 +1,11 @@
 (ns choose-a-new-phone.components.phone-card
-  (:require [re-frame.core :as re-frame]
-            [choose-a-new-phone.subs :as subs]
-            [choose-a-new-phone.events.ui :as ui]
-            [clojure.string :as str]
+  (:require [choose-a-new-phone.components.progressive-img :refer [progressive-img]]
             [choose-a-new-phone.domain :as domain]
-            [choose-a-new-phone.components.progressive-img :refer [progressive-img]]
-            [cljs-react-material-ui.reagent :as mui]))
+            [choose-a-new-phone.events.ui :as ui]
+            [choose-a-new-phone.subs :as subs]
+            [cljs-react-material-ui.reagent :as mui]
+            [clojure.string :as str]
+            [re-frame.core :as re-frame]))
 
 (defn phone-card
   [phone]

@@ -1,9 +1,9 @@
 (ns choose-a-new-phone.events.lineage-wiki
-  (:require [re-frame.core :as re-frame]
-            [choose-a-new-phone.domain :as domain]
-            [ajax.core :as ajax]
+  (:require [choose-a-new-phone.domain :as domain]
             [choose-a-new-phone.effects :as effects]
-            [choose-a-new-phone.utils :as utils]))
+            [choose-a-new-phone.utils :as utils]
+            [ajax.core :as ajax]
+            [re-frame.core :as re-frame]))
 
 (re-frame/reg-event-fx
   ::get-phone-list

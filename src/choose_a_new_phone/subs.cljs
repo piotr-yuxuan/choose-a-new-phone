@@ -1,6 +1,6 @@
 (ns choose-a-new-phone.subs
-  (:require [re-frame.core :as re-frame]
-            [choose-a-new-phone.domain :as domain]))
+  (:require [choose-a-new-phone.domain :as domain]
+            [re-frame.core :as re-frame]))
 
 (re-frame/reg-sub
   ::phones

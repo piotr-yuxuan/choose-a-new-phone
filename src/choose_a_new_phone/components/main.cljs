@@ -1,12 +1,12 @@
 (ns choose-a-new-phone.components.main
-  (:require [re-frame.core :as re-frame]
-            [goog.object :as object]
-            [choose-a-new-phone.subs :as subs]
-            [choose-a-new-phone.events.ui :as ui]
-            [choose-a-new-phone.components.visible-back-stop :refer [visible-back-stop]]
-            [choose-a-new-phone.components.app-bar :refer [app-bar]]
+  (:require [choose-a-new-phone.components.app-bar :refer [app-bar]]
+            [choose-a-new-phone.components.phone-card :refer [phone-card]]
             [choose-a-new-phone.components.phone-dialog :refer [phone-dialog]]
-            [choose-a-new-phone.components.phone-card :refer [phone-card]]))
+            [choose-a-new-phone.components.visible-back-stop :refer [visible-back-stop]]
+            [choose-a-new-phone.events.ui :as ui]
+            [choose-a-new-phone.subs :as subs]
+            [goog.object :as object]
+            [re-frame.core :as re-frame]))
 
 (defn panel
   []

@@ -1,12 +1,12 @@
 (ns choose-a-new-phone.components.phone-dialog
-  (:require [re-frame.core :as re-frame]
-            [choose-a-new-phone.events.ui :as ui]
-            [clojure.string :as str]
-            [cljs-react-material-ui.icons :as ic]
+  (:require [choose-a-new-phone.components.progressive-img :refer [progressive-img]]
             [choose-a-new-phone.domain :as domain]
             [choose-a-new-phone.events.bestbuy :as bestbuy]
-            [choose-a-new-phone.components.progressive-img :refer [progressive-img]]
-            [cljs-react-material-ui.reagent :as mui]))
+            [choose-a-new-phone.events.ui :as ui]
+            [cljs-react-material-ui.icons :as ic]
+            [cljs-react-material-ui.reagent :as mui]
+            [clojure.string :as str]
+            [re-frame.core :as re-frame]))
 
 (defn phone-dialog
   [{:keys [phone open?]}]

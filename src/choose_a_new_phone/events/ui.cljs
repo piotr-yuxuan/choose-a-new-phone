@@ -1,6 +1,6 @@
 (ns choose-a-new-phone.events.ui
-  (:require [re-frame.core :as re-frame]
-            [choose-a-new-phone.db :as db]))
+  (:require [choose-a-new-phone.db :as db]
+            [re-frame.core :as re-frame]))
 
 (re-frame/reg-event-db
   ::phone-dialog

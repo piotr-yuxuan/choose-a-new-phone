@@ -1,14 +1,14 @@
 (ns choose-a-new-phone.core
-  (:require [reagent.core :as reagent]
-            [re-frame.core :as re-frame]
-            day8.re-frame.http-fx
-            cljsjs.material-ui
+  (:require [choose-a-new-phone.components.main :as main]
+            [choose-a-new-phone.config :as config]
             [choose-a-new-phone.events.db :as events.db]
             [choose-a-new-phone.events.lineage-wiki :as lineage-wiki]
-            [choose-a-new-phone.components.main :as main]
-            [choose-a-new-phone.config :as config]
             [cljs-react-material-ui.core :as cui]
-            [cljs-react-material-ui.reagent :as mui]))
+            [cljs-react-material-ui.reagent :as mui]
+            cljsjs.material-ui
+            day8.re-frame.http-fx
+            [re-frame.core :as re-frame]
+            [reagent.core :as reagent]))
 
 (defn dev-setup []
   (when config/debug?
