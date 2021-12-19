@@ -80,8 +80,6 @@
 (defn phone-id
   "Allow reconciliation across multiple providers. Also used as React component key."
   [phone]
-  (let [latest-release (-> (:lineage-wiki/latest-release phone)
-                           #?(:clj  c/to-long
-                              :cljs (.valueOf)))]
+  (let [latest-release (read-string (:lineage-wiki/latest-release phone) "#?(:clj  c/to-long\n                              :cljs (.valueOf))")]
     ;; This should really allow only one unique phone per id or bad thing could happen.
     [(:lineage-wiki/vendor phone) (:lineage-wiki/name phone) latest-release]))

@@ -11,7 +11,7 @@
     [:session (:session @driver) :element el :property :innerHTML]
     nil
     resp
-    (-> resp :value)))
+    (:value resp)))
 
 (defn get-element-inner-html
   "Returns element's inner HTML. For element `el` in `<div id=\"el\"><p

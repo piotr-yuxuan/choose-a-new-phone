@@ -41,8 +41,7 @@
 
 (defn enrich-phone-result
   [file result]
-  (when-let [phone (->> result
-                        utils/yaml->map)]
+  (when-let [phone (utils/yaml->map result)]
     (assoc (utils/map->ns-map "lineage-wiki" phone)
       :lineage-wiki/file file)))
 

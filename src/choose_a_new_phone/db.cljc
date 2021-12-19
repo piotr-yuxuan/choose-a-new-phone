@@ -14,5 +14,4 @@
             :pending-phone-request 0
             :ui/phone-list-length ui-default-page-lenth}
      :cljs (let [dehydrated-db (dehydrated-default-db)]
-             (-> (t/reader :json {:handlers {"datetime" (fn [s] (js/moment s))}})
-                 (t/read dehydrated-db)))))
+             (t/read (t/reader :json {:handlers {"datetime" (fn [s] (js/moment s))}}) dehydrated-db))))

@@ -9,7 +9,7 @@
         layer-index (reagent.core/atom initial-layer-index)
         error? (reagent.core/atom false)]
     (fn []
-      (let [last-layer? (= @layer-index 0)
+      (let [last-layer? (zero? (deref layer-index))
             first-layer? (= @layer-index initial-layer-index)]
         [:div (update el-attrs :style merge {:display :inline-flex
                                              :position :relative
@@ -24,8 +24,7 @@
                      (assoc :on-load #(swap! layer-index dec)
                             :on-error #(reset! error? true)))])
          (when-not first-layer?
-           [:img (-> (merge-with merge el-attrs (nth progressive-img-attrs @layer-index))
-                     (update :style merge {:display :inline}))])
+           [:img (update (merge-with merge el-attrs (nth progressive-img-attrs (deref layer-index))) :style merge {:display :inline})])
          (when @error?
            [ic/alert-error-outline {:style {:position :relative
                                             :width "50%"

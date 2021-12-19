@@ -13,8 +13,7 @@
   ::sorted-phones
   :<- [::phones]
   (fn [phones _]
-    (->> phones
-         domain/sort-latest-device)))
+    (domain/sort-latest-device phones)))
 
 (re-frame/reg-sub
   ::phone-dialog
